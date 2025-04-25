@@ -11,9 +11,19 @@ let posts = [
     {id:3, title: 'Post Three'},
 ];
 
-app.get('/api/posts', (req, res) => {
-    res.json(posts);
-})
+app.get('/api/posts/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    console.log("Requested ID:", id); // 🐛 Debugging line
+
+    const post = posts.find((post) => post.id === id);
+
+    if (post) {
+        res.json(post);
+    } else {
+        res.status(404).json({ message: 'Post not found' });
+    }
+});
+
 
 app.listen(8000, () => {
     console.log("Server is running on port 8000");
